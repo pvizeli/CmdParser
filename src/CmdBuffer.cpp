@@ -2,16 +2,13 @@
 #include "CmdBuffer.hpp"
 
 
-template <size_t BUFFERSIZE>
-CmdBuffer<BUFFERSIZE>::CmdBuffer(HardwareSerial *serial) :
-    m_serial(serial),
+CmdBufferObject::CmdBufferObject()) :
     m_endChar(CMDBUFFER_CHAR_LF)
 {
     this->clear();
 }
 
-template <size_t BUFFERSIZE>
-bool CmdBuffer<BUFFERSIZE>::readFromSerial(uint32_t timeOut)
+bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 {
     uint32_t    isTimeOut;
     uint32_t    startTime;
@@ -19,9 +16,10 @@ bool CmdBuffer<BUFFERSIZE>::readFromSerial(uint32_t timeOut)
     bool        stopRead;
     size_t      readPtr;
     uint8_t     readChar;
+    uint8_t     *buffer     = this->getBuffer();
 
     // UART initialize?
-    if (m_serial == NULL) {
+    if (serial == NULL) {
         return false;
     }
 
@@ -53,15 +51,15 @@ bool CmdBuffer<BUFFERSIZE>::readFromSerial(uint32_t timeOut)
     do {
 
         // if data in serial input buffer
-        while (m_serial->available()) {
+        while (serial->available()) {
 
             // is buffer full?
-            if (readPtr >= BUFFERSIZE) {
+            if (readPtr >= this->getBufferSize()) {
                 return false;
             }
 
             // read into buffer
-            readChar = m_serial->read();
+            readChar = serial->read();
 
             // is that the end of command
             if (readChar == m_endChar)  {
@@ -70,7 +68,7 @@ bool CmdBuffer<BUFFERSIZE>::readFromSerial(uint32_t timeOut)
 
             // is a printable character
             if (readChar > CMDBUFFER_CHAR_PRINTABLE) {
-                m_buffer[readPtr++] = readChar;
+                buffer[readPtr++] = readChar;
             }
 
         }
