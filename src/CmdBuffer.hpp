@@ -1,4 +1,4 @@
-/* Copyright 2016 Pascal Vizeli <pascal.vizeli@syshack.ch>
+/* Copyright 2016 Pascal Vizeli <pvizeli@syshack.ch>
  * BSD License
  *
  * https://github.com/pvizeli/CmdParser

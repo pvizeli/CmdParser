@@ -1,0 +1,4 @@
+BasedOnStyle: LLVM
+TabWidth: 4
+BreakBeforeBraces: Linux
+AlwaysBreakTemplateDeclarations: true

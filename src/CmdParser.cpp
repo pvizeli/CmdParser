@@ -1,5 +1,10 @@
-
-#include "CmdBuffer.hpp"
+/* Copyright 2016 Pascal Vizeli <pvizeli@syshack.ch>
+ * BSD License
+ *
+ * https://github.com/pvizeli/CmdParser
+ */
+ 
+#include "CmdParser.hpp"
 
 CmdParser::CmdParser() :
     m_ignoreQuote(false),
@@ -12,7 +17,7 @@ CmdParser::CmdParser() :
 
 }
 
-uint16_t CmdParser::parseCmd(uint8_t *buffer, site_t bufferSize)
+uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
 {
     bool    isString    = false;
 
@@ -21,7 +26,7 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, site_t bufferSize)
 
     // buffer is not okay
     if (buffer == NULL || bufferSize == 0) {
-        return m_paramCount;
+        return CMDPARSER_ERROR;
     }
 
     // init buffer
@@ -33,7 +38,7 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, site_t bufferSize)
     for (size_t i = 0; i < bufferSize; i++) {
 
         // end
-        if (buffer[i] == 0x00) {
+        if (buffer[i] == 0x00 || m_paramCount == 0xFFFE) {
             return m_paramCount;
         }
         // is string "xy zyx" / only the quote option is disabled
@@ -70,6 +75,11 @@ char* CmdParser::getCmdParam(uint16_t idx)
 {
     uint16_t count = 0;
 
+    // idx bigger than exists param
+    if (idx > m_paramCount) {
+        return NULL;
+    }
+
     // search hole cmd buffer
     for (size_t i = 0; i < m_bufferSize; i++) {
 
@@ -79,8 +89,8 @@ char* CmdParser::getCmdParam(uint16_t idx)
         }
 
         // found indx with next character
-        if (count == indx && m_buffer[i] != 0x00) {
-            return &m_buffer[i];
+        if (count == idx && m_buffer[i] != 0x00) {
+            return reinterpret_cast<char*>(&m_buffer[i]);
         }
     }
 

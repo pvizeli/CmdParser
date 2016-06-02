@@ -1,4 +1,4 @@
-/* Copyright 2016 Pascal Vizeli <pascal.vizeli@syshack.ch>
+/* Copyright 2016 Pascal Vizeli <pvizeli@syshack.ch>
  * BSD License
  *
  * https://github.com/pvizeli/CmdParser
@@ -12,8 +12,9 @@
 #include "CmdBuffer.hpp"
 
 
-const uint8_t CMDPARSER_CHAR_SP = 0x20;
-const uint8_t CMDPARSER_CHAR_DQ = 0x20;
+const uint8_t   CMDPARSER_CHAR_SP   = 0x20;
+const uint8_t   CMDPARSER_CHAR_DQ   = 0x20;
+const uint16_t  CMDPARSER_ERROR     = 0xFFFF;
 
 /**
  *
@@ -62,6 +63,15 @@ public:
      * @return                  String with param or NULL if not exists
      */
     char* getCmdParamUpper(uint16_t idx);
+
+    /**
+     * Return the counter of parameter from cmd.
+     *
+     * @return                  Return the param counter of command
+     */
+    uint16_t getParamCount() {
+        return m_paramCount;
+    }
 
     /**
      * Set parser option to ignore " quote for string.
