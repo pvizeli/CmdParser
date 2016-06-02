@@ -23,8 +23,7 @@ typedef void (*CmdCallFunct)(CmdParser *cmdParser);
  */
 class CmdCallbackObject
 {
-public:
-
+  public:
     /**
      * Endless loop for process incoming data from serial.
      *
@@ -32,8 +31,7 @@ public:
      * @param cmdBuffer         Buffer object for data handling
      * @param serial            Arduino serial interface from comming data
      */
-    void loopCmdProcessing(CmdParser *cmdParser,
-                           CmdBufferObject *cmdBuffer,
+    void loopCmdProcessing(CmdParser *cmdParser, CmdBufferObject *cmdBuffer,
                            HardwareSerial *serial);
 
     /**
@@ -67,7 +65,7 @@ public:
      * @param cmdStr            Cmd string to search
      * @return                  TRUE is equal
      */
-    virtual bool equalStoreCmd(size_t idx, char* cmdStr) = 0;
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr) = 0;
 
     /**
      * Call function from store.
@@ -85,12 +83,12 @@ public:
 template <size_t COUNTFUNCT>
 class CmdCallback_P : public CmdCallbackObject
 {
-public:
-
+  public:
     /**
      * Cleanup member data
      */
-    CmdCallback_P() : m_nextElement(0) {
+    CmdCallback_P() : m_nextElement(0)
+    {
         memset(m_cmdList, 0x00, sizeof(PGM_P) * COUNTFUNCT);
         memset(m_functList, 0x00, sizeof(CmdCallFunct) * COUNTFUNCT);
     }
@@ -107,9 +105,7 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual size_t getStoreSize() {
-        return COUNTFUNCT;
-    }
+    virtual size_t getStoreSize() { return COUNTFUNCT; }
 
     /**
      * @implement CmdCallbackObject
@@ -126,7 +122,8 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual bool equalStoreCmd(size_t idx, char* cmdStr) {
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
+    {
         if (strcmp_P(m_cmdList[idx], cmdStr) == 0) {
             return true;
         }
@@ -137,22 +134,22 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual void callStoreFunct(size_t idx) {
+    virtual void callStoreFunct(size_t idx)
+    {
         if (m_functList[idx] != NULL) {
             m_functList[idx]();
         }
     }
 
-private:
-
+  private:
     /** Array with list of commands */
-    PGM_P           m_cmdList[COUNTFUNCT];
+    PGM_P m_cmdList[COUNTFUNCT];
 
     /** List of function  */
-    CmdCallFunct    m_functList[COUNTFUNCT];
+    CmdCallFunct m_functList[COUNTFUNCT];
 
     /** Pointer tof next element in array @see addCmd */
-    size_t          m_nextElement;
+    size_t m_nextElement;
 };
 
 /**
@@ -162,13 +159,13 @@ private:
 template <size_t COUNTFUNCT>
 class CmdCallback : public CmdCallbackObject
 {
-public:
-
+  public:
     /**
      * Cleanup member data
      */
-    CmdCallback() : m_nextElement(0) {
-        memset(m_cmdList, 0x00, sizeof(char*) * COUNTFUNCT);
+    CmdCallback() : m_nextElement(0)
+    {
+        memset(m_cmdList, 0x00, sizeof(char *) * COUNTFUNCT);
         memset(m_functList, 0x00, sizeof(CmdCallFunct) * COUNTFUNCT);
     }
 
@@ -184,9 +181,7 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual size_t getStoreSize() {
-        return COUNTFUNCT;
-    }
+    virtual size_t getStoreSize() { return COUNTFUNCT; }
 
     /**
      * @implement CmdCallbackObject
@@ -203,7 +198,8 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual bool equalStoreCmd(size_t idx, char* cmdStr) {
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
+    {
         if (strcmp(m_cmdList[idx], cmdStr) == 0) {
             return true;
         }
@@ -214,22 +210,22 @@ public:
     /**
      * @implement CmdCallbackObject
      */
-    virtual void callStoreFunct(size_t idx) {
+    virtual void callStoreFunct(size_t idx)
+    {
         if (m_functList[idx] != NULL) {
             m_functList[idx]();
         }
     }
 
-private:
-
+  private:
     /** Array with list of commands */
-    char*           m_cmdList[COUNTFUNCT];
+    char *m_cmdList[COUNTFUNCT];
 
     /** List of function  */
-    CmdCallFunct    m_functList[COUNTFUNCT];
+    CmdCallFunct m_functList[COUNTFUNCT];
 
     /** Pointer tof next element in array @see addCmd */
-    size_t          m_nextElement;
+    size_t m_nextElement;
 };
 
 #endif

@@ -11,10 +11,9 @@
 
 #include "CmdBuffer.hpp"
 
-
-const uint8_t   CMDPARSER_CHAR_SP   = 0x20;
-const uint8_t   CMDPARSER_CHAR_DQ   = 0x20;
-const uint16_t  CMDPARSER_ERROR     = 0xFFFF;
+const uint8_t  CMDPARSER_CHAR_SP = 0x20;
+const uint8_t  CMDPARSER_CHAR_DQ = 0x20;
+const uint16_t CMDPARSER_ERROR   = 0xFFFF;
 
 /**
  *
@@ -22,8 +21,7 @@ const uint16_t  CMDPARSER_ERROR     = 0xFFFF;
  */
 class CmdParser
 {
-public:
-
+  public:
     /**
      * Set member to default values.
      */
@@ -34,9 +32,10 @@ public:
      */
     uint16_t parseCmd(uint8_t *buffer, size_t bufferSize);
 
-    uint16_t parseCmd(CmdBufferObject *cmdBuffer) {
+    uint16_t parseCmd(CmdBufferObject *cmdBuffer)
+    {
         return this->parseCmd(cmdBuffer->getBuffer(),
-                                cmdBuffer->getBufferSize());
+                              cmdBuffer->getBufferSize());
     }
 
     /**
@@ -45,7 +44,7 @@ public:
      *
      * @return                  String with cmd word or NULL if not exists
      */
-    char* getCommand();
+    char *getCommand();
 
     /**
      * Get the param IDX from command line.
@@ -53,7 +52,7 @@ public:
      * @param idx               Number of param to get
      * @return                  String with param or NULL if not exists
      */
-    char* getCmdParam(uint16_t idx);
+    char *getCmdParam(uint16_t idx);
 
     /**
      * Get the param IDX from command line and change it to upper case.
@@ -62,16 +61,14 @@ public:
      * @param idx               Number of param to get
      * @return                  String with param or NULL if not exists
      */
-    char* getCmdParamUpper(uint16_t idx);
+    char *getCmdParamUpper(uint16_t idx);
 
     /**
      * Return the counter of parameter from cmd.
      *
      * @return                  Return the param counter of command
      */
-    uint16_t getParamCount() {
-        return m_paramCount;
-    }
+    uint16_t getParamCount() { return m_paramCount; }
 
     /**
      * Set parser option to ignore " quote for string.
@@ -79,9 +76,7 @@ public:
      *
      * @param onOff             Set option TRUE (on) or FALSE (off)
      */
-    void setOptIgnoreQuote(bool onOff = true) {
-        m_ignoreQuote = onOff;
-    }
+    void setOptIgnoreQuote(bool onOff = true) { m_ignoreQuote = onOff; }
 
     /**
      * Set parser option to upper the command to upper case.
@@ -89,9 +84,7 @@ public:
      *
      * @param onOff             Set option TRUE (on) or FALSE (off)
      */
-    void setOptCmdUpper(bool onOff = false) {
-        m_ignoreQuote = onOff;
-    }
+    void setOptCmdUpper(bool onOff = false) { m_ignoreQuote = onOff; }
 
     /**
      * Set parser option for cmd seperator.
@@ -99,12 +92,9 @@ public:
      *
      * @param seperator         Set character for seperator cmd
      */
-    void setOptSeperator(char seperator) {
-        m_seperator = seperator;
-    }
+    void setOptSeperator(char seperator) { m_seperator = seperator; }
 
-private:
-
+  private:
     /** Parser obtion @see setOptIgnoreQuote */
     bool m_ignoreQuote;
 
@@ -118,7 +108,7 @@ private:
     uint8_t *m_buffer;
 
     /** Size of cmd buffer */
-    size_t  m_bufferSize;
+    size_t m_bufferSize;
 
     /** Number of parsed params */
     uint16_t m_paramCount;

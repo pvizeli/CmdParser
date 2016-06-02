@@ -3,25 +3,23 @@
  *
  * https://github.com/pvizeli/CmdParser
  */
- 
+
 #include "CmdBuffer.hpp"
 
-
-CmdBufferObject::CmdBufferObject()) :
-    m_endChar(CMDBUFFER_CHAR_LF)
+CmdBufferObject::CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF)
 {
     this->clear();
 }
 
 bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 {
-    uint32_t    isTimeOut;
-    uint32_t    startTime;
-    bool        over;
-    bool        stopRead;
-    size_t      readPtr;
-    uint8_t     readChar;
-    uint8_t     *buffer     = this->getBuffer();
+    uint32_t isTimeOut;
+    uint32_t startTime;
+    bool     over;
+    bool     stopRead;
+    size_t   readPtr;
+    uint8_t  readChar;
+    uint8_t *buffer = this->getBuffer();
 
     // UART initialize?
     if (serial == NULL) {
@@ -44,8 +42,7 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
         // overloaded
         if (isTimeOut < startTime) {
             over = true;
-        }
-        else {
+        } else {
             over = false;
         }
     }
@@ -67,7 +64,7 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
             readChar = serial->read();
 
             // is that the end of command
-            if (readChar == m_endChar)  {
+            if (readChar == m_endChar) {
                 return true;
             }
 
@@ -75,7 +72,6 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
             if (readChar > CMDBUFFER_CHAR_PRINTABLE) {
                 buffer[readPtr++] = readChar;
             }
-
         }
 
         // Timeout is active?

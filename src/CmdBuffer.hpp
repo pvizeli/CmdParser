@@ -12,10 +12,9 @@
 
 #include <Arduino.h>
 
-
 const uint8_t CMDBUFFER_CHAR_PRINTABLE = 0xF1;
-const uint8_t CMDBUFFER_CHAR_LF = 0x0A;
-const uint8_t CMDBUFFER_CHAR_CR = 0x0D;
+const uint8_t CMDBUFFER_CHAR_LF        = 0x0A;
+const uint8_t CMDBUFFER_CHAR_CR        = 0x0D;
 
 /**
  *
@@ -23,8 +22,7 @@ const uint8_t CMDBUFFER_CHAR_CR = 0x0D;
  */
 class CmdBufferObject
 {
-public:
-
+  public:
     /**
      * Clear buffer and set defaults.
      */
@@ -50,9 +48,7 @@ public:
      *
      * @param end       ASCII character
      */
-    void setEndChar(uint8_t end) {
-        m_endChar = end;
-    }
+    void setEndChar(uint8_t end) { m_endChar = end; }
 
     /**
      * Clear buffer with 0x00
@@ -64,7 +60,7 @@ public:
      *
      * @return             String from Buffer
      */
-    virtual uint8_t* getBuffer() = 0;
+    virtual uint8_t *getBuffer() = 0;
 
     /**
      * Get size of buffer
@@ -73,12 +69,10 @@ public:
      */
     virtual size_t getBufferSize() = 0;
 
-private:
-
+  private:
     /** Character for handling the end of serial data communication */
-    uint8_t     m_endChar;
+    uint8_t m_endChar;
 };
-
 
 /**
  *
@@ -87,33 +81,25 @@ private:
 template <size_t BUFFERSIZE>
 class CmdBuffer : public CmdBufferObject
 {
-public:
+  public:
+    /**
+     * @interface CmdBufferObject
+     */
+    virtual void clear() { memset(m_buffer, 0x00, BUFFERSIZE + 1); }
 
     /**
      * @interface CmdBufferObject
      */
-    virtual void clear() {
-        memset(m_buffer, 0x00, BUFFERSIZE + 1);
-    }
+    virtual uint8_t *getBuffer() { return m_buffer; }
 
     /**
      * @interface CmdBufferObject
      */
-    virtual uint8_t* getBuffer() {
-        return m_buffer;
-    }
+    virtual size_t getBufferSize() { return BUFFERSIZE; }
 
-    /**
-     * @interface CmdBufferObject
-     */
-    virtual size_t getBufferSize() {
-        return BUFFERSIZE;
-    }
-
-private:
-
+  private:
     /** Buffer for reading data from serial input */
-    uint8_t     m_buffer[BUFFERSIZE+1];
+    uint8_t m_buffer[BUFFERSIZE + 1];
 };
 
 #endif

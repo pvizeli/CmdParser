@@ -3,12 +3,12 @@
  *
  * https://github.com/pvizeli/CmdParser
  */
- 
+
 #include "CmdCallback.hpp"
 
-void CmdCallbackObject::loopCmdProcessing(CmdParser *cmdParser,
+void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                                           CmdBufferObject *cmdBuffer,
-                                          HardwareSerial *serial)
+                                          HardwareSerial * serial)
 {
     do {
         // read data
@@ -35,9 +35,8 @@ bool CmdCallbackObject::processCmd(CmdParser *cmdParser)
     }
 
     // search cmd in store
-    for (size_t i = 0;
-        i < this->getStoreSize() && this->checkStorePos(i);
-        i++) {
+    for (size_t i = 0; i < this->getStoreSize() && this->checkStorePos(i);
+         i++) {
 
         // compare command with string
         if (this->equalStoreCmd(i, cmdStr)) {
@@ -59,8 +58,8 @@ bool CmdCallback_P<COUNTFUNCT>::addCmd(PGM_P cmdStr, CmdCallFunct cbFunct)
     }
 
     // add to store
-    m_cmdList[m_nextElement]    = cmdStr;
-    m_functList[m_nextElement]  = cbFunct;
+    m_cmdList[m_nextElement]   = cmdStr;
+    m_functList[m_nextElement] = cbFunct;
 
     ++m_nextElement;
     return true;
@@ -75,8 +74,8 @@ bool CmdCallback<COUNTFUNCT>::addCmd(char *cmdStr, CmdCallFunct cbFunct)
     }
 
     // add to store
-    m_cmdList[m_nextElement]    = cmdStr;
-    m_functList[m_nextElement]  = cbFunct;
+    m_cmdList[m_nextElement]   = cmdStr;
+    m_functList[m_nextElement] = cbFunct;
 
     ++m_nextElement;
     return true;
