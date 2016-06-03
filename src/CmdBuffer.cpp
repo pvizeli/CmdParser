@@ -10,11 +10,10 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;
     uint32_t startTime;
-    bool     over;
-    bool     stopRead;
     size_t   readPtr;
     uint8_t  readChar;
-    uint8_t *buffer = this->getBuffer();
+    uint8_t *buffer   = this->getBuffer();
+    bool     over     = false;
 
     // UART initialize?
     if (serial == NULL) {
@@ -44,7 +43,6 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 
     ////
     // process serial reading
-    stopRead = false;
     do {
 
         // if data in serial input buffer
@@ -79,12 +77,12 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
             }
 
             // timeout is receive
-            if ((isTimeOut > millis() && !over) || over) {
-                stopRead = true;
+            if (isTimeOut <= millis() && !over) {
+                return true;
             }
         }
 
-    } while (!stopRead); // timeout
+    } while (true); // timeout
 
     return false;
 }

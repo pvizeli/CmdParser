@@ -12,7 +12,7 @@
 
 #include <Arduino.h>
 
-const uint8_t CMDBUFFER_CHAR_PRINTABLE = 0xF1;
+const uint8_t CMDBUFFER_CHAR_PRINTABLE = 0x1F;
 const uint8_t CMDBUFFER_CHAR_LF        = 0x0A;
 const uint8_t CMDBUFFER_CHAR_CR        = 0x0D;
 
