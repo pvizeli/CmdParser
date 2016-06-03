@@ -1,0 +1,38 @@
+CmdParser   KEYWORD1
+CmdBuffer   KEYWORD1
+CmdCallback   KEYWORD1
+
+CmdBufferObject   KEYWORD1
+CmdCallbackObject   KEYWORD1
+
+parseCmd    KEYWORD2
+getCommand  KEYWORD2
+getCmdParam KEYWORD2
+getCmdParamUpper    KEYWORD2
+getParamCount   KEYWORD2
+
+setOptIgnoreQuote   KEYWORD2
+setOptSeperator KEYWORD2
+setOptCmdUpper  KEYWORD2
+
+setEndChar  KEYWORD2
+clear   KEYWORD2
+getBuffer   KEYWORD2
+getBufferSize   KEYWORD2
+readFromSerial  KEYWORD2
+
+loopCmdProcessing   KEYWORD2
+processCmd  KEYWORD2
+addCmd  KEYWORD2
+getStoreSize    KEYWORD2
+checkStorePos   KEYWORD2
+equalStoreCmd   KEYWORD2
+callStoreFunct  KEYWORD2
+
+CmdCallString   LITERAL1
+CmdCallString_P LITERAL1
+CMDPARSER_ERROR LITERAL2
+CMDPARSER_CHAR_DQ   LITERAL2
+CMDPARSER_CHAR_SP   LITERAL2
+CMDBUFFER_CHAR_LF   LITERAL2
+CMDBUFFER_CHAR_CR   LITERAL2

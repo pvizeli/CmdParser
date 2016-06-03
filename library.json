@@ -1,0 +1,18 @@
+{
+    "name": "CmdParser",
+    "authors":
+    {
+        "name": "Pascal Vizeli",
+        "email": "pvizeli@syshack.ch",
+        "url": "https://github.com/pvizeli"
+    },
+    "keywords": "serial, cmd, communication, processing, command",
+    "description": "A simple and most powerfull cmd parser with small memory footprint",
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/pvizeli/CmdParser.git"
+    },
+    "frameworks": "arduino",
+    "platforms": "*"
+}

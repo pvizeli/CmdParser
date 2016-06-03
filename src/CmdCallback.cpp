@@ -35,25 +35,23 @@ bool CmdCallbackObject::processCmd(CmdParser *cmdParser)
     }
 
     // search cmd in store
-    for (size_t i = 0; i < this->getStoreSize() && this->checkStorePos(i);
-         i++) {
+    for (size_t i = 0; this->checkStorePos(i); i++) {
 
         // compare command with string
         if (this->equalStoreCmd(i, cmdStr)) {
             // call function
-            this->callStoreFunct(i);
-            return true;
+            return this->callStoreFunct(i);
         }
     }
 
     return false;
 }
 
-template <size_t COUNTFUNCT>
-bool CmdCallback_P<COUNTFUNCT>::addCmd(PGM_P cmdStr, CmdCallFunct cbFunct)
+template <size_t STORESIZE, typename T>
+bool _CmdCallback<STORESIZE, T>::addCmd(T cmdStr, CmdCallFunct cbFunct)
 {
     // Store is full
-    if (m_nextElement >= COUNTFUNCT) {
+    if (m_nextElement >= STORESIZE) {
         return false;
     }
 
@@ -65,18 +63,23 @@ bool CmdCallback_P<COUNTFUNCT>::addCmd(PGM_P cmdStr, CmdCallFunct cbFunct)
     return true;
 }
 
-template <size_t COUNTFUNCT>
-bool CmdCallback<COUNTFUNCT>::addCmd(char *cmdStr, CmdCallFunct cbFunct)
+template <size_t STORESIZE>
+bool CmdCallback<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
 {
-    // Store is full
-    if (m_nextElement >= COUNTFUNCT) {
-        return false;
+    if (this->checkStorePos(idx) && strcmp(this->m_cmdList[idx], cmdStr) == 0) {
+        return true;
     }
 
-    // add to store
-    m_cmdList[m_nextElement]   = cmdStr;
-    m_functList[m_nextElement] = cbFunct;
+    return false;
+}
 
-    ++m_nextElement;
-    return true;
+template <size_t STORESIZE>
+bool CmdCallback_P<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
+{
+    if (this->checkStorePos(idx) &&
+        strcmp_P(this->m_cmdList[idx], cmdStr) == 0) {
+        return true;
+    }
+
+    return false;
 }

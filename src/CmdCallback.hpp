@@ -16,6 +16,8 @@
 #include "CmdParser.hpp"
 
 typedef void (*CmdCallFunct)(CmdParser *cmdParser);
+typedef PGM_P CmdCallString_P;
+typedef char *CmdCallString;
 
 /**
  *
@@ -72,25 +74,26 @@ class CmdCallbackObject
      * Please check idx with @see checkStorePos befor you use this funct!
      *
      * @param idx               Store number
+     * @return                  TRUE if function is valid and calling
      */
-    virtual void callStoreFunct(size_t idx) = 0;
+    virtual bool callStoreFunct(size_t idx) = 0;
 };
 
 /**
  *
  *
  */
-template <size_t COUNTFUNCT>
-class CmdCallback_P : public CmdCallbackObject
+template <size_t STORESIZE, typename T>
+class _CmdCallback : public CmdCallbackObject
 {
   public:
     /**
      * Cleanup member data
      */
-    CmdCallback_P() : m_nextElement(0)
+    _CmdCallback() : m_nextElement(0)
     {
-        memset(m_cmdList, 0x00, sizeof(PGM_P) * COUNTFUNCT);
-        memset(m_functList, 0x00, sizeof(CmdCallFunct) * COUNTFUNCT);
+        memset(m_cmdList, 0x00, sizeof(PGM_P) * STORESIZE);
+        memset(m_functList, 0x00, sizeof(CmdCallFunct) * STORESIZE);
     }
 
     /**
@@ -100,19 +103,19 @@ class CmdCallback_P : public CmdCallbackObject
      * @param cbFunct           A callback function to process your things
      * @return                  TRUE if you have space in buffer of object
      */
-    bool addCmd(PGM_P cmdStr, CmdCallFunct cbFunct);
+    bool addCmd(T cmdStr, CmdCallFunct cbFunct);
 
     /**
      * @implement CmdCallbackObject
      */
-    virtual size_t getStoreSize() { return COUNTFUNCT; }
+    virtual size_t getStoreSize() { return STORESIZE; }
 
     /**
      * @implement CmdCallbackObject
      */
     virtual bool checkStorePos(size_t idx)
     {
-        if (m_cmdList[idx] != NULL) {
+        if (idx < STORESIZE && m_cmdList[idx] != NULL) {
             return true;
         }
 
@@ -122,31 +125,22 @@ class CmdCallback_P : public CmdCallbackObject
     /**
      * @implement CmdCallbackObject
      */
-    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
+    virtual bool callStoreFunct(size_t idx)
     {
-        if (strcmp_P(m_cmdList[idx], cmdStr) == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @implement CmdCallbackObject
-     */
-    virtual void callStoreFunct(size_t idx)
-    {
-        if (m_functList[idx] != NULL) {
+        if (idx < STORESIZE && m_functList[idx] != NULL) {
             m_functList[idx]();
+            return true;
         }
+
+        return false;
     }
 
-  private:
+  protected:
     /** Array with list of commands */
-    PGM_P m_cmdList[COUNTFUNCT];
+    T m_cmdList[STORESIZE];
 
     /** List of function  */
-    CmdCallFunct m_functList[COUNTFUNCT];
+    CmdCallFunct m_functList[STORESIZE];
 
     /** Pointer tof next element in array @see addCmd */
     size_t m_nextElement;
@@ -156,76 +150,26 @@ class CmdCallback_P : public CmdCallbackObject
  *
  *
  */
-template <size_t COUNTFUNCT>
-class CmdCallback : public CmdCallbackObject
+template <size_t STORESIZE>
+class CmdCallback_P : public _CmdCallback<STORESIZE, CmdCallString_P>
 {
-  public:
     /**
-     * Cleanup member data
+     * @implement CmdCallbackObject with strcmp_P
      */
-    CmdCallback() : m_nextElement(0)
-    {
-        memset(m_cmdList, 0x00, sizeof(char *) * COUNTFUNCT);
-        memset(m_functList, 0x00, sizeof(CmdCallFunct) * COUNTFUNCT);
-    }
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr);
+};
 
+/**
+ *
+ *
+ */
+template <size_t STORESIZE>
+class CmdCallback : public _CmdCallback<STORESIZE, CmdCallString>
+{
     /**
-     * Link a callback function to command.
-     *
-     * @param cmdStr            A cmd string in SRAM
-     * @param cbFunct           A callback function to process your things
-     * @return                  TRUE if you have space in buffer of object
+     * @implement CmdCallbackObject with strcmp_P
      */
-    bool addCmd(char *cmdStr, CmdCallFunct cbFunct);
-
-    /**
-     * @implement CmdCallbackObject
-     */
-    virtual size_t getStoreSize() { return COUNTFUNCT; }
-
-    /**
-     * @implement CmdCallbackObject
-     */
-    virtual bool checkStorePos(size_t idx)
-    {
-        if (m_cmdList[idx] != NULL) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @implement CmdCallbackObject
-     */
-    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
-    {
-        if (strcmp(m_cmdList[idx], cmdStr) == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @implement CmdCallbackObject
-     */
-    virtual void callStoreFunct(size_t idx)
-    {
-        if (m_functList[idx] != NULL) {
-            m_functList[idx]();
-        }
-    }
-
-  private:
-    /** Array with list of commands */
-    char *m_cmdList[COUNTFUNCT];
-
-    /** List of function  */
-    CmdCallFunct m_functList[COUNTFUNCT];
-
-    /** Pointer tof next element in array @see addCmd */
-    size_t m_nextElement;
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr);
 };
 
 #endif
