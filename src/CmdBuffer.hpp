@@ -29,7 +29,8 @@ class CmdBufferObject
     CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF) {}
 
     /**
-     * Read data from serial communication to buffer.
+     * Read data from serial communication to buffer. It read only printable
+     * ASCII character from serial. All other will ignore for buffer.
      *
      * @param serial        Arduino Serial object from read commands
      * @param timeOut       Set a time out in millisec or 0 for none
