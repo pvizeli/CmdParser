@@ -51,6 +51,16 @@ class CmdBufferObject
     void setEndChar(uint8_t end) { m_endChar = end; }
 
     /**
+     * Cast Buffer to c string.
+     *
+     * @return      Buffer as cstring
+     */
+    char *getStringFromBuffer()
+    {
+        return reinterpret_cast<char *>(this->getBuffer());
+    }
+
+    /**
      * Clear buffer with 0x00
      */
     virtual void clear() = 0;
@@ -82,7 +92,6 @@ template <size_t BUFFERSIZE>
 class CmdBuffer : public CmdBufferObject
 {
   public:
-
     /**
      * Cleanup Buffers
      */

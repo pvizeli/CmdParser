@@ -19,6 +19,7 @@ setOptCmdUpper  KEYWORD2
 setEndChar  KEYWORD2
 clear   KEYWORD2
 getBuffer   KEYWORD2
+getStringFromBuffer KEYWORD2
 getBufferSize   KEYWORD2
 readFromSerial  KEYWORD2
 

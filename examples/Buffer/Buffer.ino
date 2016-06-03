@@ -30,7 +30,7 @@ void loop()
     // Read line from Serial until timeout
     if (cmdBuffer.readFromSerial(&Serial, 30000)) {
         Serial.println("Line have readed:");
-        Serial.println(reinterpret_cast<char*>(cmdBuffer.getBuffer()));
+        Serial.println(cmdBuffer.getStringFromBuffer());
     } else {
         Serial.println("TIMEOUT!");
     }
