@@ -78,7 +78,7 @@ bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 
             // timeout is receive
             if (isTimeOut <= millis() && !over) {
-                return true;
+                return false;
             }
         }
 
