@@ -26,7 +26,7 @@ class CmdBufferObject
     /**
      * Clear buffer and set defaults.
      */
-    CmdBufferObject();
+    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF) {}
 
     /**
      * Read data from serial communication to buffer.
@@ -82,6 +82,12 @@ template <size_t BUFFERSIZE>
 class CmdBuffer : public CmdBufferObject
 {
   public:
+
+    /**
+     * Cleanup Buffers
+     */
+    CmdBuffer() { this->clear(); }
+
     /**
      * @interface CmdBufferObject
      */

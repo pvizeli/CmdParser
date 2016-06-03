@@ -1,6 +1,7 @@
 CmdParser   KEYWORD1
 CmdBuffer   KEYWORD1
 CmdCallback   KEYWORD1
+CmdCallback_P   KEYWORD1
 
 CmdBufferObject   KEYWORD1
 CmdCallbackObject   KEYWORD1

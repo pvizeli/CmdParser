@@ -6,11 +6,6 @@
 
 #include "CmdBuffer.hpp"
 
-CmdBufferObject::CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF)
-{
-    this->clear();
-}
-
 bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;

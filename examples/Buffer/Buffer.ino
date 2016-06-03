@@ -9,10 +9,10 @@
 // It will read printable data from serial into modern buffer
 ////
 
-#include <CmdBuffer>
+#include <CmdBuffer.hpp>
 
 // Create a buffer with size of 64 characters
-CmdBuffer<64> cmdBuffer();
+CmdBuffer<64> cmdBuffer;
 
 void setup()
 {
@@ -30,7 +30,7 @@ void loop()
     // Read line from Serial until timeout
     if (cmdBuffer.readFromSerial(&Serial, 30000)) {
         Serial.println("Line have readed:");
-        Serial.println(cmdBuffer.getBuffer());
+        Serial.println(reinterpret_cast<char*>(cmdBuffer.getBuffer()));
     } else {
         Serial.println("TIMEOUT!");
     }
