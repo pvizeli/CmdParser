@@ -28,7 +28,13 @@ class CmdParser
     CmdParser();
 
     /**
+     * Parse a buffer with commands.
+     * @warning This function change the buffer and only this object can handle
+     * the new buffer!
      *
+     * @param buffer            Buffer with cmd string
+     * @param bufferSize        Size of buffer
+     * @return                  Number of params or CMDPARSER_ERROR
      */
     uint16_t parseCmd(uint8_t *buffer, size_t bufferSize);
 
@@ -36,6 +42,12 @@ class CmdParser
     {
         return this->parseCmd(cmdBuffer->getBuffer(),
                               cmdBuffer->getBufferSize());
+    }
+
+    uint16_t parseCmd(char *cmdStr)
+    {
+        return this->parseCmd(reinterpret_cast<uint8_t *>(cmdStr),
+                              strlen(cmdStr));
     }
 
     /**

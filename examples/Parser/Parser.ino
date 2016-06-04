@@ -54,18 +54,20 @@ void loop()
     Serial.println("Start Reading");
 
     // Read line from Serial until timeout
-    if (cmdBuffer.readFromSerial(&Serial, 30000)) {
+    if (myBuffer.readFromSerial(&Serial, 30000)) {
 
         if (cmdParser.parseCmd(&myBuffer)) {
             Serial.print("Line have readed: ");
-            Serial.println(myBuffer.getStringFromBuffer());
+            //Serial.println(myBuffer.getStringFromBuffer());
 
-            Serial.print("Command: ") Serial.println(cmdParser.getCommand());
+            Serial.print("Command: ");
+            Serial.println(cmdParser.getCommand());
 
             Serial.print("Size of parameter: ");
             Serial.println(cmdParser.getParamCount());
 
-            for (size_t i = 0; i <= cmdParser.getParamCount(); i++) {
+            const size_t count = cmdParser.getParamCount();
+            for (size_t i = 0; i <= count; i++) {
 
                 Serial.print("Param ");
                 Serial.print(i);
