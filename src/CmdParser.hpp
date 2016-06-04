@@ -56,11 +56,10 @@ class CmdParser
 
     /**
      * Get the initial command line word.
-     * For options with this function @see setOptCmdUpper
      *
      * @return                  String with cmd word or NULL if not exists
      */
-    char *getCommand();
+    char *getCommand() { return this->getCmdParam(0); }
 
     /**
      * Get the param IDX from command line.
@@ -68,19 +67,7 @@ class CmdParser
      * @param idx               Number of param to get
      * @return                  String with param or NULL if not exists
      */
-    char *getCmdParam(uint16_t idx)
-    {
-        return reinterpret_cast<char *>(this->searchCmdParam(idx));
-    }
-
-    /**
-     * Get the param IDX from command line and change it to upper case.
-     * It change the cmd buffer permanent to upper case!
-     *
-     * @param idx               Number of param to get
-     * @return                  String with param or NULL if not exists
-     */
-    char *getCmdParamUpper(uint16_t idx);
+    char *getCmdParam(uint16_t idx);
 
     /**
      * Return the counter of parameter from cmd.
@@ -116,14 +103,6 @@ class CmdParser
     void setOptIgnoreQuote(bool onOff = true) { m_ignoreQuote = onOff; }
 
     /**
-     * Set parser option to upper the command to upper case.
-     * Default is on
-     *
-     * @param onOff             Set option TRUE (on) or FALSE (off)
-     */
-    void setOptCmdUpper(bool onOff = false) { m_ignoreQuote = onOff; }
-
-    /**
      * Set parser option for handling KEY=Value parameter.
      * Default is off
      *
@@ -143,9 +122,6 @@ class CmdParser
     /** Parser obtion @see setOptIgnoreQuote */
     bool m_ignoreQuote;
 
-    /** Parser option @see setOptCmdUpper */
-    bool m_setCmdUpper;
-
     /** Parser option @see setOptKeyValue */
     bool m_useKeyValue;
 
@@ -160,21 +136,6 @@ class CmdParser
 
     /** Number of parsed params */
     uint16_t m_paramCount;
-
-    /**
-     * Change param to upper case.
-     *
-     * @param param         Pointer to Param in buffer.
-     */
-    void changePartToUpper(uint8_t *param);
-
-    /**
-     * Get the param IDX from command line.
-     *
-     * @param idx               Number of param to get
-     * @return                  Pointer with param or NULL if not exists
-     */
-    uint8_t *searchCmdParam(uint16_t idx);
 };
 
 #endif

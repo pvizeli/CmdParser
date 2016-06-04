@@ -28,7 +28,7 @@ void setup()
     // cmdParser.setOptSeperator(' '); // default
 
     ////
-    // Get command (first argument) in upper case back -> getCommand()
+    // Use Key=Value with getValueFromKey/_P() by parser
     // cmdParser.setOptCmdUpper(true); // default
 
     if (cmdParser.parseCmd(myTestCmd)) {

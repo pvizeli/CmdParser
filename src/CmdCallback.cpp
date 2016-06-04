@@ -66,7 +66,8 @@ bool _CmdCallback<STORESIZE, T>::addCmd(T cmdStr, CmdCallFunct cbFunct)
 template <size_t STORESIZE>
 bool CmdCallback<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
 {
-    if (this->checkStorePos(idx) && strcmp(this->m_cmdList[idx], cmdStr) == 0) {
+    if (this->checkStorePos(idx) &&
+        strcasecmp(this->m_cmdList[idx], cmdStr) == 0) {
         return true;
     }
 
@@ -77,7 +78,7 @@ template <size_t STORESIZE>
 bool CmdCallback_P<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
 {
     if (this->checkStorePos(idx) &&
-        strcmp_P(this->m_cmdList[idx], cmdStr) == 0) {
+        strcasecmp_P(this->m_cmdList[idx], cmdStr) == 0) {
         return true;
     }
 
