@@ -9,6 +9,7 @@
 CmdParser::CmdParser()
     : m_ignoreQuote(false),
       m_setCmdUpper(true),
+      m_useKeyValue(false),
       m_seperator(CMDPARSER_CHAR_SP),
       m_buffer(NULL),
       m_bufferSize(0),
@@ -19,6 +20,7 @@ CmdParser::CmdParser()
 uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
 {
     bool isString = false;
+    uint8_t *keyPointer = NULL;
 
     // init param count
     m_paramCount ^= m_paramCount;
@@ -49,10 +51,24 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
         else if (!isString && buffer[i] == m_seperator) {
             buffer[i] = 0x00;
         }
+        // replace = with '\0' if KEY=Value is set
+        else if (!isString && m_useKeyValue && buffer[i] == CMDPARSER_CHAR_EQ) {
+            buffer[i] = 0x00;
+
+            // change KEY to upper case
+            if (m_setCmdUpper) {
+                this->changePartToUpper(keyPointer);
+            }
+        }
 
         // count
         if (i > 0 && buffer[i] == 0x00 && buffer[i - 1] != 0x00) {
             m_paramCount++;
+        }
+
+        // Store pointer to begin of param/key
+        if (i == 0 || (buffer[i] != 0x00 && buffer[i - 1] == 0x00 )) {
+            keyPointer = &buffer[i];
         }
     }
 
@@ -70,7 +86,34 @@ char *CmdParser::getCommand()
     return this->getCmdParam(0);
 }
 
-char *CmdParser::getCmdParam(uint16_t idx)
+char *CmdParser::getCmdParamUpper(uint16_t idx)
+{
+    uint8_t *element = this->searchCmdParam(idx);
+
+    // change upper case
+    this->changePartToUpper(element);
+
+    return reinterpret_cast<char *>(element);
+}
+
+void CmdParser::changePartToUpper(uint8_t *param)
+{
+    // ok
+    if (param == NULL) {
+        return;
+    }
+
+    // change pointer
+    char *element = reinterpret_cast<char *>(param);
+
+    // change upper case
+    for (size_t i = 0; element[i] != 0x00; i++) {
+        // set upper
+        element[i] = toupper(element[i]);
+    }
+}
+
+uint8_t *CmdParser::searchCmdParam(uint16_t idx)
 {
     uint16_t count = 0;
 
@@ -89,26 +132,9 @@ char *CmdParser::getCmdParam(uint16_t idx)
 
         // found indx with next character
         if (count == idx && m_buffer[i] != 0x00) {
-            return reinterpret_cast<char *>(&m_buffer[i]);
+            return &m_buffer[i];
         }
     }
 
     return NULL;
-}
-
-char *CmdParser::getCmdParamUpper(uint16_t idx)
-{
-    char *element = this->getCmdParam(idx);
-
-    // not found?
-    if (element == NULL) {
-        return NULL;
-    }
-
-    for (size_t i = 0; element[i] != 0x00; i++) {
-        // set upper
-        element[i] = toupper(element[i]);
-    }
-
-    return element;
 }

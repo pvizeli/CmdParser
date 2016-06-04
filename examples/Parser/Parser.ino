@@ -56,9 +56,9 @@ void loop()
     // Read line from Serial until timeout
     if (myBuffer.readFromSerial(&Serial, 30000)) {
 
-        if (cmdParser.parseCmd(&myBuffer)) {
+        if (cmdParser.parseCmd(&myBuffer) != CMDPARSER_ERROR) {
             Serial.print("Line have readed: ");
-            //Serial.println(myBuffer.getStringFromBuffer());
+            Serial.println(myBuffer.getStringFromBuffer());
 
             Serial.print("Command: ");
             Serial.println(cmdParser.getCommand());

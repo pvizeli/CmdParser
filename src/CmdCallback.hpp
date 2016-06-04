@@ -16,8 +16,6 @@
 #include "CmdParser.hpp"
 
 typedef void (*CmdCallFunct)(CmdParser *cmdParser);
-typedef PGM_P CmdCallString_P;
-typedef char *CmdCallString;
 
 /**
  *
@@ -151,7 +149,7 @@ class _CmdCallback : public CmdCallbackObject
  *
  */
 template <size_t STORESIZE>
-class CmdCallback_P : public _CmdCallback<STORESIZE, CmdCallString_P>
+class CmdCallback_P : public _CmdCallback<STORESIZE, CmdParserString_P>
 {
     /**
      * @implement CmdCallbackObject with strcmp_P
@@ -164,7 +162,7 @@ class CmdCallback_P : public _CmdCallback<STORESIZE, CmdCallString_P>
  *
  */
 template <size_t STORESIZE>
-class CmdCallback : public _CmdCallback<STORESIZE, CmdCallString>
+class CmdCallback : public _CmdCallback<STORESIZE, CmdParserString>
 {
     /**
      * @implement CmdCallbackObject with strcmp_P
