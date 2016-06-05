@@ -12,7 +12,7 @@
 #include "CmdBuffer.hpp"
 
 const uint8_t  CMDPARSER_CHAR_SP = 0x20;
-const uint8_t  CMDPARSER_CHAR_DQ = 0x20;
+const uint8_t  CMDPARSER_CHAR_DQ = 0x22;
 const uint8_t  CMDPARSER_CHAR_EQ = 0x3D;
 const uint16_t CMDPARSER_ERROR   = 0xFFFF;
 

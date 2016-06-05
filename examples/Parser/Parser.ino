@@ -29,7 +29,7 @@ void setup()
 
     ////
     // Use Key=Value with getValueFromKey/_P() by parser
-    // cmdParser.setOptCmdUpper(true); // default
+    // cmdParser.setOptKeyValue(true); // default
 
     if (cmdParser.parseCmd(myTestCmd)) {
         Serial.print("Command: ");
@@ -41,11 +41,12 @@ void setup()
         Serial.print("Param 1: ");
         Serial.println(cmdParser.getCmdParam(1));
 
-        // check param 2
+        // check param 2 from SRAM
         if (cmdParser.equalCmdParam(2, "senSor")) {
             Serial.println("Found Sensor in with SRAM");
         }
 
+        // check param 2 from PROGMEM
         if (cmdParser.equalCmdParam_P(2, PSTR("senSor"))) {
             Serial.println("Found Sensor in with PROGMEM");
         }
