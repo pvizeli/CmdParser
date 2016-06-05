@@ -47,8 +47,8 @@ void setup()
             Serial.print("Alarm: ");
             Serial.println(cmdParser.getValueFromKey_P(PSTR("ALARM")));
 
-            Serial.print("Alarm: ");
-            Serial.println(cmdParser.getValueFromKey_P(PSTR("ALARM")));
+            Serial.print("Valve: ");
+            Serial.println(cmdParser.getValueFromKey_P(PSTR("VALVE")));
         } else {
             Serial.println("Command is not run!");
         }
@@ -60,11 +60,11 @@ void loop()
 
     // alarm an
     if (cmdParser.equalValueFromKey_P(PSTR("ALARM"), PSTR("YES"))) {
-        Serial.println("alarm on");
+        Serial.println("Alarm on");
 
     } else {
         Serial.println("Alarm off");
     }
 
-    sleep(30000);
+    delay(30000);
 }
