@@ -36,6 +36,8 @@ myParser.parseCmd(cString); // C string buffer
 #include <CmdBuffer.hpp>
 
 CmdBuffer<32> myBuffer;
+
+myBuffer.readFromSerial(&Serial, numTimeout);
 ```
 
 ### Options

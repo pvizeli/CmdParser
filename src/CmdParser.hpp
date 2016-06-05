@@ -143,6 +143,38 @@ class CmdParser
     }
 
     /**
+     * Check if value equal from key case sensitive.
+     *
+     * @param key               Key store in SRAM for search in cmd
+     * @param value             String to compare in PROGMEM
+     * @return                  TRUE is equal
+     */
+    bool equalValueFromKey(CmdParserString key, CmdParserString value)
+    {
+        if (strcasecmp(this->getValueFromKey(key, false), value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if value equal from key case sensitive.
+     *
+     * @param key               Key store in PROGMEM for search in cmd
+     * @param value             String to compare in PROGMEM
+     * @return                  TRUE is equal
+     */
+    bool equalValueFromKey_P(CmdParserString key, CmdParserString value)
+    {
+        if (strcasecmp_P(this->getValueFromKey(key, true), value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * If KeyValue option is set, search the value from a key pair.
      * KEY=Value i.e. KEY is upper case @see setOptCmdUpper.
      *

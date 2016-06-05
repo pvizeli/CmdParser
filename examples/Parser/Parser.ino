@@ -29,9 +29,9 @@ void setup()
 
     ////
     // Use Key=Value with getValueFromKey/_P() by parser
-    // cmdParser.setOptKeyValue(true); // default
+    // cmdParser.setOptKeyValue(false); // default
 
-    if (cmdParser.parseCmd(myTestCmd)) {
+    if (cmdParser.parseCmd(myTestCmd) != CMDPARSER_ERROR) {
         Serial.print("Command: ");
         Serial.println(cmdParser.getCommand());
 

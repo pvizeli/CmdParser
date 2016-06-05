@@ -16,6 +16,8 @@ equalCmdParam   KEYWORD2
 equalCmdParam_P KEYWORD2
 equalCommand    KEYWORD2
 equalCommand_P  KEYWORD2
+equalValueFromKey   KEYWORD2
+equalValueFromKey_P KEYWORD2
 
 setOptIgnoreQuote   KEYWORD2
 setOptSeperator KEYWORD2
