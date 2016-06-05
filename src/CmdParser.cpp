@@ -89,7 +89,7 @@ char *CmdParser::getCmdParam(uint16_t idx)
     return NULL;
 }
 
-char *CmdParser::getValueFromKey(CmdParserString key)
+char *CmdParser::getValueFromKey(const char *key, bool progmem)
 {
     bool foundKey = false;
 
@@ -102,14 +102,21 @@ char *CmdParser::getValueFromKey(CmdParserString key)
 
         // find first element
         if (i == 0 || (m_buffer[i - 1] == 0x00 && !foundKey)) {
-            // if key?
-            if (strcasecmp(reinterpret_cast<char *>(&m_buffer[i]), key) == 0) {
+            // if key in SRAM
+            if (!progmem &&
+                strcasecmp(reinterpret_cast<char *>(&m_buffer[i]), key) == 0) {
+                foundKey = true;
+            }
+            // if key in PROGMEM
+            else if (progmem &&
+                     strcasecmp_P(reinterpret_cast<char *>(&m_buffer[i]),
+                                  key) == 0) {
                 foundKey = true;
             }
         }
         // Next element after found key is the value...
         else if (m_buffer[i - 1] == 0x00) {
-            return reinterpret_cast<char*>(&m_buffer[i]);
+            return reinterpret_cast<char *>(&m_buffer[i]);
         }
     }
 

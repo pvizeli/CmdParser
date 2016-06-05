@@ -16,8 +16,8 @@ const uint8_t  CMDPARSER_CHAR_DQ = 0x20;
 const uint8_t  CMDPARSER_CHAR_EQ = 0x3D;
 const uint16_t CMDPARSER_ERROR   = 0xFFFF;
 
-typedef PGM_P CmdParserString_P;
-typedef char *CmdParserString;
+typedef PGM_P       CmdParserString_P;
+typedef const char *CmdParserString;
 
 /**
  *
@@ -83,7 +83,64 @@ class CmdParser
      * @param key               Key for search in cmd
      * @return                  String with value or NULL if not exists
      */
-    char *getValueFromKey(CmdParserString key);
+    char *getValueFromKey(CmdParserString key)
+    {
+        return this->getValueFromKey(key, false);
+    }
+
+    /**
+     * Check if param equal with value case sensitive.
+     *
+     * @param idx               Number of param to get
+     * @param value             String to compare
+     * @return                  TRUE is equal
+     */
+    bool equalCmdParam(uint16_t idx, CmdParserString value)
+    {
+        if (strcasecmp(this->getCmdParam(idx), value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if param equal with value case sensitive.
+     *
+     * @param idx               Number of param to get
+     * @param value             String to compare in PROGMEM
+     * @return                  TRUE is equal
+     */
+    bool equalCmdParam_P(uint16_t idx, CmdParserString_P value)
+    {
+        if (strcasecmp_P(this->getCmdParam(idx), value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if command equal with value case sensitive.
+     *
+     * @param value             String to compare
+     * @return                  TRUE is equal
+     */
+    bool equalCommand(CmdParserString value)
+    {
+        return this->equalCmdParam(0, value);
+    }
+
+    /**
+     * Check if command equal with value case sensitive.
+     *
+     * @param value             String to compare in PROGMEM
+     * @return                  TRUE is equal
+     */
+    bool equalCommand_P(CmdParserString_P value)
+    {
+        return this->equalCmdParam_P(0, value);
+    }
 
     /**
      * If KeyValue option is set, search the value from a key pair.
@@ -92,7 +149,10 @@ class CmdParser
      * @param key               Key store in PROGMEM for search in cmd
      * @return                  String with value or NULL if not exists
      */
-    char *getValueFromKey_P(CmdParserString_P key);
+    char *getValueFromKey_P(CmdParserString_P key)
+    {
+        return this->getValueFromKey(key, true);
+    }
 
     /**
      * Set parser option to ignore " quote for string.
@@ -136,6 +196,14 @@ class CmdParser
 
     /** Number of parsed params */
     uint16_t m_paramCount;
+
+    /**
+     * Handle internal key value search function.
+     *
+     * @param progmem           TRUE key is store in progmem
+     * @return                  String with value or NULL if not exists
+     */
+    char *getValueFromKey(const char *key, bool progmem);
 };
 
 #endif

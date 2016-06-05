@@ -13,7 +13,7 @@
 
 CmdParser cmdParser;
 
-char myTestCmd[] = "START sensor1 \"Hallo world\"";
+char myTestCmd[] = "START \"Hallo world\" sensor";
 
 void setup()
 {
@@ -41,8 +41,14 @@ void setup()
         Serial.print("Param 1: ");
         Serial.println(cmdParser.getCmdParam(1));
 
-        Serial.print("Param 2 (upper case): ");
-        Serial.println(cmdParser.getCmdParamUpper(2));
+        // check param 2
+        if (cmdParser.equalCmdParam(2, "senSor")) {
+            Serial.println("Found Sensor in with SRAM");
+        }
+
+        if (cmdParser.equalCmdParam_P(2, PSTR("senSor"))) {
+            Serial.println("Found Sensor in with PROGMEM");
+        }
     }
 }
 
@@ -73,6 +79,11 @@ void loop()
                 Serial.print(i);
                 Serial.print(": ");
                 Serial.println(cmdParser.getCmdParam(i));
+            }
+
+            // Check end
+            if (cmdParser.equalCommand_P(PSTR("Quit"))) {
+                Serial.println("You have write a QUIT Command!");
             }
 
         } else {

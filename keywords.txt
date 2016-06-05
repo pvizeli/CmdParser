@@ -9,8 +9,13 @@ CmdCallbackObject   KEYWORD1
 parseCmd    KEYWORD2
 getCommand  KEYWORD2
 getCmdParam KEYWORD2
-getCmdParamUpper    KEYWORD2
 getParamCount   KEYWORD2
+getValueFromKey KEYWORD2
+getValueFromKey_P   KEYWORD2
+equalCmdParam   KEYWORD2
+equalCmdParam_P KEYWORD2
+equalCommand    KEYWORD2
+equalCommand_P  KEYWORD2
 
 setOptIgnoreQuote   KEYWORD2
 setOptSeperator KEYWORD2
