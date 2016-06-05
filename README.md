@@ -17,6 +17,9 @@ For handling show all examples.
 The function ```parseCmd``` will change the buffer! Only the parser object can
 handle the new buffer...
 
+Default it use a static parameter list. With KeyValue option you can change
+to dynamic key=value parser handling.
+
 ```c++
 #include <CmdParser.hpp>
 
@@ -41,8 +44,27 @@ myParser.parseCmd(cString); // C string buffer
 
 CmdBuffer<32> myBuffer;
 
+// Reading Data
 myBuffer.readFromSerial(&Serial, numTimeout);
 ```
 
 ### Options
 - ```setEndChar``` (default '\n') set character for stop reading. Normal is a line end.
+
+## Callback Object
+
+```c++
+#include <CmdCallback.hpp>
+
+CmdCallback<5> myCallback; // Object for handling 5 function in SRAM
+CmdCallback_P<5> myCallbackP; // Object for handling 5 function in PROGMEM
+
+// add function
+myCallbackP.addCmd(PSTR("SET"), &myFunctForSet);
+
+// Automatic proccessing
+myCallbackP.loopCmdProcessing(&myParser, &myBuffer, &Serial);
+
+// Manual
+myCallbackP.processCmd(cstrCmd);
+```
