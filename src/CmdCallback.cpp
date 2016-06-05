@@ -40,46 +40,8 @@ bool CmdCallbackObject::processCmd(CmdParser *cmdParser)
         // compare command with string
         if (this->equalStoreCmd(i, cmdStr)) {
             // call function
-            return this->callStoreFunct(i);
+            return this->callStoreFunct(i, cmdParser);
         }
-    }
-
-    return false;
-}
-
-template <size_t STORESIZE, typename T>
-bool _CmdCallback<STORESIZE, T>::addCmd(T cmdStr, CmdCallFunct cbFunct)
-{
-    // Store is full
-    if (m_nextElement >= STORESIZE) {
-        return false;
-    }
-
-    // add to store
-    m_cmdList[m_nextElement]   = cmdStr;
-    m_functList[m_nextElement] = cbFunct;
-
-    ++m_nextElement;
-    return true;
-}
-
-template <size_t STORESIZE>
-bool CmdCallback<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
-{
-    if (this->checkStorePos(idx) &&
-        strcasecmp(this->m_cmdList[idx], cmdStr) == 0) {
-        return true;
-    }
-
-    return false;
-}
-
-template <size_t STORESIZE>
-bool CmdCallback_P<STORESIZE>::equalStoreCmd(size_t idx, char *cmdStr)
-{
-    if (this->checkStorePos(idx) &&
-        strcasecmp_P(this->m_cmdList[idx], cmdStr) == 0) {
-        return true;
     }
 
     return false;

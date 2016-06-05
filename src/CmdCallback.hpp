@@ -7,9 +7,9 @@
 #ifndef CMDCALLBACK_H
 #define CMDCALLBACK_H
 
+#include <avr/pgmspace.h>
 #include <stdint.h>
 #include <string.h>
-#include <avr/pgmspace.h>
 
 #include <Arduino.h>
 
@@ -75,7 +75,7 @@ class CmdCallbackObject
      * @param idx               Store number
      * @return                  TRUE if function is valid and calling
      */
-    virtual bool callStoreFunct(size_t idx) = 0;
+    virtual bool callStoreFunct(size_t idx, CmdParser *cmdParser) = 0;
 };
 
 /**
@@ -102,7 +102,20 @@ class _CmdCallback : public CmdCallbackObject
      * @param cbFunct           A callback function to process your things
      * @return                  TRUE if you have space in buffer of object
      */
-    bool addCmd(T cmdStr, CmdCallFunct cbFunct);
+    bool addCmd(T cmdStr, CmdCallFunct cbFunct)
+    {
+        // Store is full
+        if (m_nextElement >= STORESIZE) {
+            return false;
+        }
+
+        // add to store
+        m_cmdList[m_nextElement]   = cmdStr;
+        m_functList[m_nextElement] = cbFunct;
+
+        ++m_nextElement;
+        return true;
+    }
 
     /**
      * @implement CmdCallbackObject
@@ -124,10 +137,10 @@ class _CmdCallback : public CmdCallbackObject
     /**
      * @implement CmdCallbackObject
      */
-    virtual bool callStoreFunct(size_t idx)
+    virtual bool callStoreFunct(size_t idx, CmdParser *cmdParser)
     {
         if (idx < STORESIZE && m_functList[idx] != NULL) {
-            m_functList[idx]();
+            m_functList[idx](cmdParser);
             return true;
         }
 
@@ -155,7 +168,15 @@ class CmdCallback_P : public _CmdCallback<STORESIZE, CmdParserString_P>
     /**
      * @implement CmdCallbackObject with strcmp_P
      */
-    virtual bool equalStoreCmd(size_t idx, char *cmdStr);
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
+    {
+        if (this->checkStorePos(idx) &&
+            strcasecmp_P(this->m_cmdList[idx], cmdStr) == 0) {
+            return true;
+        }
+
+        return false;
+    }
 };
 
 /**
@@ -168,7 +189,15 @@ class CmdCallback : public _CmdCallback<STORESIZE, CmdParserString>
     /**
      * @implement CmdCallbackObject with strcmp_P
      */
-    virtual bool equalStoreCmd(size_t idx, char *cmdStr);
+    virtual bool equalStoreCmd(size_t idx, char *cmdStr)
+    {
+        if (this->checkStorePos(idx) &&
+            strcasecmp(this->m_cmdList[idx], cmdStr) == 0) {
+            return true;
+        }
+
+        return false;
+    }
 };
 
 #endif
