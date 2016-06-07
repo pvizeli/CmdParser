@@ -7,7 +7,11 @@
 #ifndef CMDCALLBACK_H
 #define CMDCALLBACK_H
 
+#if defined(__AVR__)
 #include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
+#endif
 #include <stdint.h>
 #include <string.h>
 
