@@ -7,6 +7,12 @@
 #ifndef CMDPARSER_H
 #define CMDPARSER_H
 
+#if defined(__AVR__)
+#include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
+#endif
+
 #include <ctype.h>
 
 #include "CmdBuffer.hpp"
