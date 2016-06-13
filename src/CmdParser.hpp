@@ -4,8 +4,8 @@
  * https://github.com/pvizeli/CmdParser
  */
 
-#ifndef CMDPARSER_H
-#define CMDPARSER_H
+#ifndef _CMDPARSER_H_
+#define _CMDPARSER_H_
 
 #if defined(__AVR__)
 #include <avr/pgmspace.h>
@@ -22,7 +22,9 @@ const uint8_t  CMDPARSER_CHAR_DQ = 0x22;
 const uint8_t  CMDPARSER_CHAR_EQ = 0x3D;
 const uint16_t CMDPARSER_ERROR   = 0xFFFF;
 
-typedef PGM_P       CmdParserString_P;
+#if defined(__AVR__) || defined(ESP8266)
+typedef PGM_P CmdParserString_P;
+#endif
 typedef const char *CmdParserString;
 
 /**
@@ -111,22 +113,6 @@ class CmdParser
     }
 
     /**
-     * Check if param equal with value case sensitive.
-     *
-     * @param idx               Number of param to get
-     * @param value             String to compare in PROGMEM
-     * @return                  TRUE is equal
-     */
-    bool equalCmdParam_P(uint16_t idx, CmdParserString_P value)
-    {
-        if (strcasecmp_P(this->getCmdParam(idx), value) == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Check if command equal with value case sensitive.
      *
      * @param value             String to compare
@@ -135,17 +121,6 @@ class CmdParser
     bool equalCommand(CmdParserString value)
     {
         return this->equalCmdParam(0, value);
-    }
-
-    /**
-     * Check if command equal with value case sensitive.
-     *
-     * @param value             String to compare in PROGMEM
-     * @return                  TRUE is equal
-     */
-    bool equalCommand_P(CmdParserString_P value)
-    {
-        return this->equalCmdParam_P(0, value);
     }
 
     /**
@@ -164,12 +139,18 @@ class CmdParser
         return false;
     }
 
+#if defined(__AVR__) || defined(ESP8266)
+
     /**
-     * Check if value equal from key case sensitive.
-     *
-     * @param key               Key store in PROGMEM for search in cmd
-     * @param value             String to compare in PROGMEM
-     * @return                  TRUE is equal
+     * @see equalCommand
+     */
+    bool equalCommand_P(CmdParserString_P value)
+    {
+        return this->equalCmdParam_P(0, value);
+    }
+
+    /**
+     * @see equalValueFromKey
      */
     bool equalValueFromKey_P(CmdParserString key, CmdParserString value)
     {
@@ -181,16 +162,26 @@ class CmdParser
     }
 
     /**
-     * If KeyValue option is set, search the value from a key pair.
-     * KEY=Value i.e. KEY is upper case @see setOptCmdUpper.
-     *
-     * @param key               Key store in PROGMEM for search in cmd
-     * @return                  String with value or NULL if not exists
+     * @see equalCmdParam
+     */
+    bool equalCmdParam_P(uint16_t idx, CmdParserString_P value)
+    {
+        if (strcasecmp_P(this->getCmdParam(idx), value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @see getValueFromKey
      */
     char *getValueFromKey_P(CmdParserString_P key)
     {
         return this->getValueFromKey(key, true);
     }
+
+#endif
 
     /**
      * Set parser option to ignore " quote for string.
