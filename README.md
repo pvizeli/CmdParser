@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pvizeli/CmdParser.svg?branch=master)]
+[![Build Status](https://travis-ci.org/pvizeli/CmdParser.svg?branch=master)](https://travis-ci.org/pvizeli/CmdParser)
 
 # CmdParser
 A simple and most powerfull cmd parser with small memory footprint and realy

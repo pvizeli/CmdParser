@@ -4,8 +4,8 @@
  * https://github.com/pvizeli/CmdParser
  */
 
-#ifndef CMDBUFFER_H
-#define CMDBUFFER_H
+#ifndef _CMDBUFFER_H_
+#define _CMDBUFFER_H_
 
 #include <stdint.h>
 #include <string.h>

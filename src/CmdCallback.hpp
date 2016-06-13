@@ -4,8 +4,8 @@
  * https://github.com/pvizeli/CmdParser
  */
 
-#ifndef CMDCALLBACK_H
-#define CMDCALLBACK_H
+#ifndef _CMDCALLBACK_H_
+#define _CMDCALLBACK_H_
 
 #if defined(__AVR__)
 #include <avr/pgmspace.h>
@@ -163,6 +163,7 @@ class _CmdCallback : public CmdCallbackObject
     size_t m_nextElement;
 };
 
+#if defined(__AVR__) || defined(ESP8266)
 /**
  *
  *
@@ -183,6 +184,8 @@ class CmdCallback_P : public _CmdCallback<STORESIZE, CmdParserString_P>
         return false;
     }
 };
+
+#endif
 
 /**
  *

@@ -19,4 +19,4 @@ install:
     - pip install -U platformio
 
 script:
-    - platformio ci --lib="." --board=nanoatmega328 --board=esp12e
+    - platformio ci --lib="." --board=nanoatmega328 --board=esp12e --board=leonardo
