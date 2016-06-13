@@ -6,7 +6,7 @@
 
 #include "CmdBuffer.hpp"
 
-bool CmdBufferObject::readFromSerial(HardwareSerial *serial, uint32_t timeOut)
+bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;
     uint32_t startTime;

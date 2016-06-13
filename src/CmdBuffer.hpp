@@ -37,7 +37,7 @@ class CmdBufferObject
      * @return              TRUE if data readed until end character or FALSE
      *                      is a timeout receive or buffer is full.
      */
-    bool readFromSerial(HardwareSerial *serial, uint32_t timeOut = 0);
+    bool readFromSerial(Stream *serial, uint32_t timeOut = 0);
 
     /**
      * Set a ASCII character for serial cmd end.
