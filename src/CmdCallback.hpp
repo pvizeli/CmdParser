@@ -38,7 +38,7 @@ class CmdCallbackObject
      * @param serial            Arduino serial interface from comming data
      */
     void loopCmdProcessing(CmdParser *cmdParser, CmdBufferObject *cmdBuffer,
-                           HardwareSerial *serial);
+                           Stream *serial);
 
     /**
      * Search command in the buffer and execute the callback function.

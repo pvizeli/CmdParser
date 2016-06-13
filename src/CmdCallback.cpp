@@ -8,7 +8,7 @@
 
 void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                                           CmdBufferObject *cmdBuffer,
-                                          HardwareSerial * serial)
+                                          Stream * serial)
 {
     do {
         // read data
