@@ -21,7 +21,7 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
     bool isString = false;
 
     // init param count
-    m_paramCount ^= m_paramCount;
+    m_paramCount = 0;
 
     // buffer is not okay
     if (buffer == NULL || bufferSize == 0) {
