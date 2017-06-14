@@ -172,12 +172,12 @@ template <size_t STORESIZE>
 class CmdCallback_P : public _CmdCallback<STORESIZE, CmdParserString_P>
 {
     /**
-     * @implement CmdCallbackObject with strcmp_P
+     * @implement CmdCallbackObject with strcasecmp_P
      */
     virtual bool equalStoreCmd(size_t idx, char *cmdStr)
     {
         if (this->checkStorePos(idx) &&
-            strcasecmp_P(this->m_cmdList[idx], cmdStr) == 0) {
+            strcasecmp_P(cmdStr, this->m_cmdList[idx]) == 0) {
             return true;
         }
 
@@ -195,7 +195,7 @@ template <size_t STORESIZE>
 class CmdCallback : public _CmdCallback<STORESIZE, CmdParserString>
 {
     /**
-     * @implement CmdCallbackObject with strcmp_P
+     * @implement CmdCallbackObject with strcasecmp
      */
     virtual bool equalStoreCmd(size_t idx, char *cmdStr)
     {
