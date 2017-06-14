@@ -74,7 +74,7 @@ void loop()
             Serial.println(cmdParser.getParamCount());
 
             const size_t count = cmdParser.getParamCount();
-            for (size_t i = 0; i <= count; i++) {
+            for (size_t i = 0; i < count; i++) {
 
                 Serial.print("Param ");
                 Serial.print(i);
