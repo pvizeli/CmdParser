@@ -24,7 +24,7 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
     m_paramCount = 0;
 
     // buffer is not okay
-    if (buffer == NULL || bufferSize == 0) {
+    if (buffer == NULL || bufferSize == 0 || buffer[0] == 0x00) {
         return CMDPARSER_ERROR;
     }
 
