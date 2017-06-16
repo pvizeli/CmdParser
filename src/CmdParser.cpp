@@ -21,7 +21,7 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
     bool isString = false;
 
     // init param count
-    m_paramCount ^= m_paramCount;
+    m_paramCount = 0;
 
     // buffer is not okay
     if (buffer == NULL || bufferSize == 0) {
@@ -38,6 +38,9 @@ uint16_t CmdParser::parseCmd(uint8_t *buffer, size_t bufferSize)
 
         // end
         if (buffer[i] == 0x00 || m_paramCount == 0xFFFE) {
+            if (i > 0 && buffer[i - 1] != 0x00) {
+                m_paramCount++;
+            }
             return m_paramCount;
         }
         // is string "xy zyx" / only the quote option is disabled
