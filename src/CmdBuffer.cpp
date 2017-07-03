@@ -10,22 +10,14 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;
     uint32_t startTime;
-    size_t   readPtr;
     uint8_t  readChar;
-    uint8_t *buffer   = this->getBuffer();
-    bool     over     = false;
+    uint8_t *buffer = this->getBuffer();
+    bool     over   = false;
 
     // UART initialize?
     if (serial == NULL) {
         return false;
     }
-
-    ////
-    // init buffers
-    this->clear();
-
-    // init Counter
-    readPtr ^= readPtr;
 
     ////
     // Calc Timeout
@@ -49,7 +41,8 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
         while (serial->available()) {
 
             // is buffer full?
-            if (readPtr >= this->getBufferSize()) {
+            if (m_dataOffset >= this->getBufferSize()) {
+                m_dataOffset = 0;
                 return false;
             }
 
@@ -58,12 +51,14 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
 
             // is that the end of command
             if (readChar == m_endChar) {
+                buffer[m_dataOffset] = '\0';
+                m_dataOffset         = 0;
                 return true;
             }
 
             // is a printable character
             if (readChar > CMDBUFFER_CHAR_PRINTABLE) {
-                buffer[readPtr++] = readChar;
+                buffer[m_dataOffset++] = readChar;
             }
         }
 

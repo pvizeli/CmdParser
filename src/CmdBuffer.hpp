@@ -26,7 +26,7 @@ class CmdBufferObject
     /**
      * Clear buffer and set defaults.
      */
-    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF) {}
+    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF), m_dataOffset(0) {}
 
     /**
      * Read data from serial communication to buffer. It read only printable
@@ -67,7 +67,7 @@ class CmdBufferObject
     virtual void clear() = 0;
 
     /**
-     * Return a 0x00 terminatet string
+     * Return a null-terminated ('\0') string
      *
      * @return             String from Buffer
      */
@@ -83,6 +83,7 @@ class CmdBufferObject
   private:
     /** Character for handling the end of serial data communication */
     uint8_t m_endChar;
+    size_t  m_dataOffset;
 };
 
 /**
