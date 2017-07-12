@@ -20,6 +20,7 @@ void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                 if (this->processCmd(cmdParser)) {
                     // FIXME: handling cmd not found
                 }
+            	cmdBuffer->clear();
             }
         }
     } while (true);
