@@ -70,3 +70,21 @@ myCallbackP.loopCmdProcessing(&myParser, &myBuffer, &Serial);
 // Manual
 myCallbackP.processCmd(cstrCmd);
 ```
+
+### Options
+- optional fourth paramter in loopCmdProcessing to toggle if function returns if no serial characters are to be processed
+```c++
+#include <CmdCallback.hpp>
+
+CmdCallback<5> myCallback; // Object for handling 5 function in SRAM
+CmdBuffer<32> myBuffer;
+CmdParser     myParser;
+
+// add function
+myCallback.addCmd("SET", &myFunctForSet);
+
+// Automatic proccessing
+myCallback.loopCmdProcessing(&myParser, &myBuffer, &Serial, false);
+
+```
+ 

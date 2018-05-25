@@ -36,10 +36,11 @@ class CmdCallbackObject
      * @param cmdParser         Parser object with options set
      * @param cmdBuffer         Buffer object for data handling
      * @param serial            Arduino serial interface from comming data
+     * @param bLoopAlways       Loop Always (True) or Loop when data is received and until cmd is processed 
      */
     void loopCmdProcessing(CmdParser *cmdParser, CmdBufferObject *cmdBuffer,
-                           Stream *serial);
-
+                           Stream *serial, bool bLoopAlways);
+                           
     /**
      * Search command in the buffer and execute the callback function.
      *

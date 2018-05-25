@@ -8,8 +8,12 @@
 
 void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                                           CmdBufferObject *cmdBuffer,
-                                          Stream * serial)
+                                          Stream * serial, 
+                                          bool bLoopAlways=true)
 {
+    if (bLoopAlways == false)
+        if (serial->available() == 0)
+            return;
     do {
         // read data
         if (cmdBuffer->readFromSerial(serial)) {
@@ -20,10 +24,10 @@ void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                 if (this->processCmd(cmdParser)) {
                     // FIXME: handling cmd not found
                 }
-            	cmdBuffer->clear();
+                if (bLoopAlways) cmdBuffer->clear();
             }
         }
-    } while (true);
+    } while (bLoopAlways);
 }
 
 bool CmdCallbackObject::processCmd(CmdParser *cmdParser)
