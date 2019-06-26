@@ -49,6 +49,24 @@ class CmdCallbackObject
     virtual bool processCmd(CmdParser *cmdParser);
 
     /**
+     * Check for single new char on serial and if it was the endChar
+     *
+     * @param cmdParser         Parser object with options set
+     * @param cmdBuffer         Buffer object for data handling
+     * @param serial            Arduino serial interface from comming data
+     */
+    void updateCmdProcessing(CmdParser *cmdParser, CmdBufferObject *cmdBuffer,
+                           Stream *serial);
+
+    /**
+     * Search command in the buffer.
+     *
+     * @param cmdStr            Cmd string to search
+     * @return                  TRUE if found the command in the buffer
+     */
+    virtual bool hasCmd(char *cmdStr);
+
+    /**
      * Give the size of callback store.
      *
      * @return                  Size of callback Store

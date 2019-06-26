@@ -15,6 +15,8 @@
 const uint8_t CMDBUFFER_CHAR_PRINTABLE = 0x1F;
 const uint8_t CMDBUFFER_CHAR_LF        = 0x0A;
 const uint8_t CMDBUFFER_CHAR_CR        = 0x0D;
+const uint8_t CMDBUFFER_CHAR_BS        = 0x08;
+const uint8_t CMDBUFFER_CHAR_DEL       = 0x7F;
 
 /**
  *
@@ -26,7 +28,10 @@ class CmdBufferObject
     /**
      * Clear buffer and set defaults.
      */
-    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF), m_dataOffset(0) {}
+    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF),
+                        m_bsChar(CMDBUFFER_CHAR_BS),
+                        m_dataOffset(0),
+                        m_echo(false) {}
 
     /**
      * Read data from serial communication to buffer. It read only printable
@@ -40,8 +45,20 @@ class CmdBufferObject
     bool readFromSerial(Stream *serial, uint32_t timeOut = 0);
 
     /**
+     * Read one char from serial communication to buffer if available.
+     * It read only printable ASCII character from serial.
+     * All other will ignore for buffer. This function only ready currently
+     * available data and doesn't wait for a full command (= end character)
+     *
+     * @param serial        Arduino Serial object from read commands
+     * @return              TRUE if data readed until end character or
+     *                      FALSE if not.
+     */
+    bool readSerialChar(Stream *serial);
+
+    /**
      * Set a ASCII character for serial cmd end.
-     " Default value is LF.
+     * Default value is LF.
      *
      * Macros for helping are:
      * - CMDBUFFER_CHAR_LF
@@ -50,6 +67,25 @@ class CmdBufferObject
      * @param end       ASCII character
      */
     void setEndChar(uint8_t end) { m_endChar = end; }
+
+    /**
+     * Set a ASCII character for serial cmd backspace.
+     * Default value is BS.
+     *
+     * Macros for helping are:
+     * - CMDBUFFER_CHAR_BS
+     * - CMDBUFFER_CHAR_DEL
+     *
+     * @param backspace       ASCII character
+     */
+    void setBackChar(uint8_t backspace) { m_bsChar = backspace; }
+
+    /**
+     * Set echo serial on (true) or off (false)
+     *
+     * @param echo      bool
+     */
+    void setEcho(bool echo) { m_echo = echo; }
 
     /**
      * Cast Buffer to c string.
@@ -83,6 +119,8 @@ class CmdBufferObject
   private:
     /** Character for handling the end of serial data communication */
     uint8_t m_endChar;
+    uint8_t m_bsChar;
+    bool m_echo;
     size_t  m_dataOffset;
 };
 
