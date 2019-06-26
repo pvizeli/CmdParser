@@ -40,25 +40,8 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
         // if data in serial input buffer
         while (serial->available()) {
 
-            // is buffer full?
-            if (m_dataOffset >= this->getBufferSize()) {
-                m_dataOffset = 0;
-                return false;
-            }
-
-            // read into buffer
-            readChar = serial->read();
-
-            // is that the end of command
-            if (readChar == m_endChar) {
-                buffer[m_dataOffset] = '\0';
-                m_dataOffset         = 0;
-                return true;
-            }
-
-            // is a printable character
-            if (readChar > CMDBUFFER_CHAR_PRINTABLE) {
-                buffer[m_dataOffset++] = readChar;
+            if (this->readSerialChar(serial)) {
+              return true;
             }
         }
 
