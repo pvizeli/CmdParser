@@ -10,8 +10,6 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;
     uint32_t startTime;
-    uint8_t  readChar;
-    uint8_t *buffer = this->getBuffer();
     bool     over   = false;
 
     // UART initialize?
