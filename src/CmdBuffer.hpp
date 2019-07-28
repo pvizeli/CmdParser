@@ -120,8 +120,8 @@ class CmdBufferObject
     /** Character for handling the end of serial data communication */
     uint8_t m_endChar;
     uint8_t m_bsChar;
-    bool m_echo;
     size_t  m_dataOffset;
+    bool m_echo;
 };
 
 /**
