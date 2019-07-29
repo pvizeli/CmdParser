@@ -17,9 +17,8 @@ void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
             // parse command line
             if (cmdParser->parseCmd(cmdBuffer) != CMDPARSER_ERROR) {
                 // search command in store and call function
-                if (this->processCmd(cmdParser)) {
-                    // FIXME: handling cmd not found
-                }
+                // ignore return value "false" if ommand was not found
+                this->processCmd(cmdParser));
                 cmdBuffer->clear();
             }
         }
@@ -57,9 +56,8 @@ void CmdCallbackObject::updateCmdProcessing(CmdParser *      cmdParser,
         // parse command line
         if (cmdParser->parseCmd(cmdBuffer) != CMDPARSER_ERROR) {
             // search command in store and call function
-            if (this->processCmd(cmdParser)) {
-                // FIXME: handling cmd not found
-            }
+            // ignore return value "false" if ommand was not found
+            this->processCmd(cmdParser));
             cmdBuffer->clear();
         }
     }
