@@ -56,7 +56,7 @@ class CmdCallbackObject
      * @param serial            Arduino serial interface from comming data
      */
     void updateCmdProcessing(CmdParser *cmdParser, CmdBufferObject *cmdBuffer,
-                           Stream *serial);
+                             Stream *serial);
 
     /**
      * Search command in the buffer.

@@ -28,10 +28,13 @@ class CmdBufferObject
     /**
      * Clear buffer and set defaults.
      */
-    CmdBufferObject() : m_endChar(CMDBUFFER_CHAR_LF),
-                        m_bsChar(CMDBUFFER_CHAR_BS),
-                        m_dataOffset(0),
-                        m_echo(false) {}
+    CmdBufferObject()
+        : m_endChar(CMDBUFFER_CHAR_LF),
+          m_bsChar(CMDBUFFER_CHAR_BS),
+          m_dataOffset(0),
+          m_echo(false)
+    {
+    }
 
     /**
      * Read data from serial communication to buffer. It read only printable
@@ -121,7 +124,7 @@ class CmdBufferObject
     uint8_t m_endChar;
     uint8_t m_bsChar;
     size_t  m_dataOffset;
-    bool m_echo;
+    bool    m_echo;
 };
 
 /**

@@ -40,10 +40,7 @@ void functSet(CmdParser *myParser)
     }
 }
 
-void functQuit(CmdParser *myParser)
-{
-    Serial.println("Receive Quit");
-}
+void functQuit(CmdParser *myParser) { Serial.println("Receive Quit"); }
 
 void setup()
 {
@@ -62,7 +59,6 @@ void setup()
     Serial.println("1: hallo");
     Serial.println("2: set alarm on/off");
     Serial.println("3: quit");
-
 }
 
 void loop()

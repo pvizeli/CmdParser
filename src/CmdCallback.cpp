@@ -8,7 +8,7 @@
 
 void CmdCallbackObject::loopCmdProcessing(CmdParser *      cmdParser,
                                           CmdBufferObject *cmdBuffer,
-                                          Stream * serial)
+                                          Stream *         serial)
 {
     do {
         // read data
@@ -50,7 +50,7 @@ bool CmdCallbackObject::processCmd(CmdParser *cmdParser)
 
 void CmdCallbackObject::updateCmdProcessing(CmdParser *      cmdParser,
                                             CmdBufferObject *cmdBuffer,
-                                            Stream * serial)
+                                            Stream *         serial)
 {
     // read data and check if command was entered
     if (cmdBuffer->readSerialChar(serial)) {

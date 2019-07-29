@@ -10,7 +10,7 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
 {
     uint32_t isTimeOut;
     uint32_t startTime;
-    bool     over   = false;
+    bool     over = false;
 
     // UART initialize?
     if (serial == NULL) {
@@ -39,7 +39,7 @@ bool CmdBufferObject::readFromSerial(Stream *serial, uint32_t timeOut)
         while (serial->available()) {
 
             if (this->readSerialChar(serial)) {
-              return true;
+                return true;
             }
         }
 
@@ -83,8 +83,8 @@ bool CmdBufferObject::readSerialChar(Stream *serial)
         // read into buffer
         readChar = serial->read();
 
-        if ( m_echo ) {
-          serial->write(readChar);
+        if (m_echo) {
+            serial->write(readChar);
         }
 
         // is that the end of command
@@ -95,12 +95,12 @@ bool CmdBufferObject::readSerialChar(Stream *serial)
         }
 
         // is that a backspace char?
-        if ( (readChar == m_bsChar) && (m_dataOffset >0 ) ) {
-            //buffer[--m_dataOffset] = 0;
+        if ((readChar == m_bsChar) && (m_dataOffset > 0)) {
+            // buffer[--m_dataOffset] = 0;
             --m_dataOffset;
-            if ( m_echo ) {
-              serial->write(' ');
-              serial->write(readChar);
+            if (m_echo) {
+                serial->write(' ');
+                serial->write(readChar);
             }
             return false;
         }
@@ -108,7 +108,6 @@ bool CmdBufferObject::readSerialChar(Stream *serial)
         // is a printable character
         if (readChar > CMDBUFFER_CHAR_PRINTABLE) {
             buffer[m_dataOffset++] = readChar;
-
         }
     }
     return false;
