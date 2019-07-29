@@ -9,7 +9,7 @@ jobs:
 - job: 'PlatformIO_CI'
   pool:
     vmImage: 'ubuntu-latest'
-  container: 'python:2.7-stretch'
+  container: 'python:2.7'
   strategy:
     matrix:
       Buffer:
@@ -24,7 +24,7 @@ jobs:
         ExampleSrc: 'examples/Parser-KeyValue/Callback_P.ino'
   steps:
   - script: |
-      python -m venv venv
+      virtualenv venv
 
       . venv/bin/activate
       pip install -U PlatformIO==4.0.0
