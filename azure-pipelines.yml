@@ -1,0 +1,32 @@
+
+trigger:
+- master
+pr:
+- master
+
+jobs:
+
+- job: 'PlatformIO_CI'
+  pool:
+    vmImage: 'ubuntu-latest'
+  container: 'python:2.7-stretch'
+  strategy:
+    matrix:
+      Buffer:
+        ExampleSrc: 'examples/Buffer/Buffer.ino'
+      Parser:
+        ExampleSrc: 'examples/Parser/Parser.ino'
+      Parser_KeyValue:
+        ExampleSrc: 'examples/Parser-KeyValue/Parser-KeyValue.ino'
+      Callback:
+        ExampleSrc: 'examples/Parser-KeyValue/Callback.ino'
+      Callback_P:
+        ExampleSrc: 'examples/Parser-KeyValue/Callback_P.ino'
+  steps:
+  - script: pip install -U PlatformIO==4.0.0
+    displayName: 'Install PlatformIO'
+  - script: |
+      platformio ci --lib="." --board=nanoatmega328 --board=esp12e --board=leonardo
+    displayName: 'Run a multi-line script'
+    env:
+      PLATFORMIO_CI_SRC: $(ExampleSrc)
