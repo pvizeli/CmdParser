@@ -23,9 +23,14 @@ jobs:
       Callback_P:
         ExampleSrc: 'examples/Parser-KeyValue/Callback_P.ino'
   steps:
-  - script: pip install -U PlatformIO==4.0.0
+  - script: |
+      python -m venv venv
+
+      . venv/bin/activate
+      pip install -U PlatformIO==4.0.0
     displayName: 'Install PlatformIO'
   - script: |
+      . venv/bin/activate
       platformio ci --lib="." --board=nanoatmega328 --board=esp12e --board=leonardo
     displayName: 'Run a multi-line script'
     env:
