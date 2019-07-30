@@ -24,6 +24,8 @@ setOptSeperator	KEYWORD2
 setOptCmdUpper	KEYWORD2
 
 setEndChar	KEYWORD2
+setBackChar	KEYWORD2
+setEcho	KEYWORD2
 clear	KEYWORD2
 getBuffer	KEYWORD2
 getStringFromBuffer	KEYWORD2
@@ -31,7 +33,9 @@ getBufferSize	KEYWORD2
 readFromSerial	KEYWORD2
 
 loopCmdProcessing	KEYWORD2
+updateCmdProcessing	KEYWORD2
 processCmd	KEYWORD2
+hasCmd	KEYWORD2
 addCmd	KEYWORD2
 getStoreSize	KEYWORD2
 checkStorePos	KEYWORD2
