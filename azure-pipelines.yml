@@ -19,15 +19,18 @@ jobs:
       Parser_KeyValue:
         ExampleSrc: 'examples/Parser-KeyValue/Parser-KeyValue.ino'
       Callback:
-        ExampleSrc: 'examples/Parser-KeyValue/Callback.ino'
+        ExampleSrc: 'examples/Callback/Callback.ino'
       Callback_P:
-        ExampleSrc: 'examples/Parser-KeyValue/Callback_P.ino'
+        ExampleSrc: 'examples/Callback_P/Callback_P.ino'
+      Callback_non_blocking:
+        ExampleSrc: 'examples/Callback_non_blocking/Callback_non_blocking.ino'
   steps:
   - script: |
       virtualenv venv
 
       . venv/bin/activate
       pip install -U PlatformIO==4.0.0
+      platformio update
     displayName: 'Install PlatformIO'
   - script: |
       . venv/bin/activate
