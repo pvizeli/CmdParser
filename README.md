@@ -1,6 +1,7 @@
 [![Build Status](https://dev.azure.com/pascalvizeli/CmdParser/_apis/build/status/CI?branchName=master)](https://dev.azure.com/pascalvizeli/CmdParser/_build/latest?definitionId=3&branchName=master)
 
 # CmdParser
+
 A simple and most powerfull cmd parser with small memory footprint and realy
 fast algorithm.
 
@@ -34,10 +35,10 @@ myParser.parseCmd(cString); // C string buffer
 ```
 
 ### Options
+
 - ```setOptIgnoreQuote``` (default off) support string with "my value"
 - ```setOptSeperator``` (default ' ') use this character for seperate cmd
 - ```setOptKeyValue``` (default off) Support dynamic key=value feature
-
 
 ## Buffer Object
 
@@ -48,10 +49,16 @@ CmdBuffer<32> myBuffer;
 
 // Reading Data
 myBuffer.readFromSerial(&Serial, numTimeout);
+
+// Read single character
+myBuffer.readSerialChar(&Serial);
 ```
 
 ### Options
+
 - ```setEndChar``` (default '\n') set character for stop reading. Normal is a line end.
+- `setBackChar` (default '\h') set the character for backspace.
+- `setEcho` (default 'false') enable local echo.
 
 ## Callback Object
 
@@ -69,4 +76,12 @@ myCallbackP.loopCmdProcessing(&myParser, &myBuffer, &Serial);
 
 // Manual
 myCallbackP.processCmd(cstrCmd);
+
+// Check for new chars and check if complete command was entered
+// This function is non-blocking to be used in a loop.
+myCallbackP.updateCmdProcessing(&myParser, &myBuffer, &Serial);
+
+// Search command in the buffer, returns true if such command was defined.
+myCallbackP.hasCmd(cstrCmd);
+
 ```
