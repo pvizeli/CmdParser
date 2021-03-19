@@ -105,7 +105,10 @@ class CmdParser
      */
     bool equalCmdParam(uint16_t idx, CmdParserString value)
     {
-        if (strcasecmp(this->getCmdParam(idx), value) == 0) {
+        const char *param_actual_value = this->getCmdParam(idx);
+
+        if (param_actual_value != NULL &&
+            strcasecmp(param_actual_value, value) == 0) {
             return true;
         }
 
@@ -134,6 +137,24 @@ class CmdParser
     {
         if (strcasecmp(this->getValueFromKey(key, false), value) == 0) {
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if value a parameter (or a flag) exists between all parameters or
+     * flags.
+     *
+     * @param value             String to look for in parameters
+     * @return                  TRUE is exists
+     */
+    bool equalCmdParamFromAll(CmdParserString value)
+    {
+        for (uint16_t i = 1; i < m_paramCount; i++) {
+            if (equalCmdParam(i, value)) {
+                return true;
+            }
         }
 
         return false;
