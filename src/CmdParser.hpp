@@ -143,7 +143,7 @@ class CmdParser
     }
 
     /**
-     * Check if a parameter/flag exists among all
+     * Checks if a parameter/flag exists among all
      * other passed command parameters.
      *
      * @param value             String to look for among the parameters
