@@ -143,13 +143,13 @@ class CmdParser
     }
 
     /**
-     * Check if value a parameter (or a flag) exists between all parameters or
-     * flags.
+     * Check if a parameter/flag exists among all
+     * other passed command parameters.
      *
-     * @param value             String to look for in parameters
-     * @return                  TRUE is exists
+     * @param value             String to look for among the parameters
+     * @return                  TRUE if found
      */
-    bool equalCmdParamFromAll(CmdParserString value)
+    bool cmdParamExists(CmdParserString value)
     {
         for (uint16_t i = 1; i < m_paramCount; i++) {
             if (equalCmdParam(i, value)) {
