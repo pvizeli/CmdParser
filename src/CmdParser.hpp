@@ -101,14 +101,20 @@ class CmdParser
      *
      * @param idx               Number of param to get
      * @param value             String to compare
-     * @return                  TRUE is equal
+     * @return                  TRUE if equal
      */
     bool equalCmdParam(uint16_t idx, CmdParserString value)
     {
-        const char *param_actual_value = this->getCmdParam(idx);
+        char *param = this->getCmdParam(idx);
 
-        if (param_actual_value != NULL &&
-            strcasecmp(param_actual_value, value) == 0) {
+        if (param == NULL) {
+            if (value == NULL) {
+                return true;
+            }
+            return false;
+        }
+
+        if (strcasecmp(param, value) == 0) {
             return true;
         }
 
@@ -119,7 +125,7 @@ class CmdParser
      * Check if command equal with value case sensitive.
      *
      * @param value             String to compare
-     * @return                  TRUE is equal
+     * @return                  TRUE if equal
      */
     bool equalCommand(CmdParserString value)
     {
@@ -131,11 +137,20 @@ class CmdParser
      *
      * @param key               Key store in SRAM for search in cmd
      * @param value             String to compare in PROGMEM
-     * @return                  TRUE is equal
+     * @return                  TRUE if equal
      */
     bool equalValueFromKey(CmdParserString key, CmdParserString value)
     {
-        if (strcasecmp(this->getValueFromKey(key, false), value) == 0) {
+        char *param = this->getValueFromKey(key, false);
+
+        if (param == NULL) {
+            if (value == NULL) {
+                return true;
+            }
+            return false;
+        }
+
+        if (strcasecmp(param, value) == 0) {
             return true;
         }
 
@@ -175,7 +190,16 @@ class CmdParser
      */
     bool equalValueFromKey_P(CmdParserString key, CmdParserString value)
     {
-        if (strcasecmp_P(this->getValueFromKey(key, true), value) == 0) {
+        char *param = this->getValueFromKey(key, true);
+
+        if (param == NULL) {
+            if (value == NULL) {
+                return true;
+            }
+            return false;
+        }
+
+        if (strcasecmp_P(param, value) == 0) {
             return true;
         }
 
@@ -187,7 +211,16 @@ class CmdParser
      */
     bool equalCmdParam_P(uint16_t idx, CmdParserString_P value)
     {
-        if (strcasecmp_P(this->getCmdParam(idx), value) == 0) {
+        char *param = this->getCmdParam(idx);
+
+        if (param == NULL) {
+            if (value == NULL) {
+                return true;
+            }
+            return false;
+        }
+
+        if (strcasecmp_P(param, value) == 0) {
             return true;
         }
 
