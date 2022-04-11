@@ -157,6 +157,24 @@ class CmdParser
         return false;
     }
 
+    /**
+     * Checks if a parameter/flag exists among all
+     * other passed command parameters.
+     *
+     * @param value             String to look for among the parameters
+     * @return                  TRUE if found
+     */
+    bool cmdParamExists(CmdParserString value)
+    {
+        for (uint16_t i = 1; i < m_paramCount; i++) {
+            if (equalCmdParam(i, value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 #if defined(__AVR__) || defined(ESP8266)
 
     /**
