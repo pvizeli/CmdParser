@@ -2,7 +2,7 @@
 
 # CmdParser
 
-A simple and most powerfull cmd parser with small memory footprint and realy
+A simple and most powerful cmd parser with small memory footprint and realy
 fast algorithm.
 
 This library is for handling commands over i.e. serial and short data transfers.
